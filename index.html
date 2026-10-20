@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#14121a">
+<title>D&D Character Sheet</title>
+<link rel="stylesheet" href="style.css">
+<link rel="stylesheet" href="character.css">
+</head>
+<body class="character-body">
+<main class="screen character-screen">
+  <header class="char-top">
+    <div>
+      <p class="eyebrow">D&D • ADVENTURER'S JOURNAL</p>
+      <h1>Character Sheet</h1>
+      <p class="muted">Buat, simpan, dan mainkan karakter D&D-mu.</p>
+    </div>
+    <div class="char-actions">
+<button class="btn" id="exportBtn" type="button">Export JSON</button>
+      <button class="btn" id="importBtn" type="button">Import JSON</button>
+      <input id="importFile" type="file" accept="application/json,.json" hidden>
+    </div>
+  </header>
+
+  <section class="char-identity card">
+    <div class="portrait"><span id="portraitInitial">?</span><small>ADVENTURER</small></div>
+    <div class="identity-fields">
+      <label class="field"><span>Nama karakter</span><input id="name" data-save placeholder="Nama karakter"></label>
+      <div class="identity-grid">
+        <label class="field"><span>Class & level</span><input id="classLevel" data-save placeholder="Fighter 1"></label>
+        <label class="field"><span>Ras</span><input id="race" data-save placeholder="Elf"></label>
+        <label class="field"><span>Background</span><input id="background" data-save placeholder="Guild Outcast"></label>
+        <label class="field"><span>Alignment</span><input id="alignment" data-save placeholder="Chaotic Good"></label>
+        <label class="field"><span>Player</span><input id="player" data-save placeholder="Nama pemain"></label>
+        <label class="field"><span>Experience points</span><input id="xp" data-save type="number" min="0" value="0"></label>
+      </div>
+    </div>
+  </section>
+
+  <section class="vitals-grid">
+    <article class="vital card"><span>Armor Class</span><strong id="acDisplay">10</strong><label>AC <input id="ac" data-save type="number" value="10"></label></article>
+    <article class="vital card"><span>Initiative</span><strong id="initDisplay">+0</strong><small>DEX modifier</small></article>
+    <article class="vital card"><span>Speed</span><strong><input id="speed" data-save type="number" value="30"></strong><small>feet</small></article>
+    <article class="vital hp-vital card"><span>Hit Points</span><div class="hp-line"><strong id="hpDisplay">10 / 10</strong><div><button class="btn small" id="hpMinus">−</button><button class="btn small" id="hpPlus">+</button></div></div><div class="hp-track"><i id="hpBar"></i></div><div class="hp-fields"><label>Current <input id="hp" data-save type="number" min="0" value="10"></label><label>Max <input id="hpMax" data-save type="number" min="1" value="10"></label><label>Temp <input id="hpTemp" data-save type="number" min="0" value="0"></label></div></article>
+    <article class="vital card"><span>Hit Dice</span><strong><input id="hitDice" data-save value="1d10"></strong><small>Remaining hit dice</small></article>
+    <article class="vital card"><span>Proficiency Bonus</span><strong id="profDisplay">+2</strong><label>Bonus <input id="prof" data-save type="number" value="2"></label></article>
+  </section>
+
+  <section class="char-columns">
+    <div class="char-main">
+      <section class="card">
+        <div class="section-title"><h2>Ability Scores</h2><span class="muted">Enam atribut utama</span></div>
+        <div class="abilities" id="abilities"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><h2>Saving Throws</h2><span class="muted">Centang proficiency</span></div>
+        <div id="saves" class="proficiency-list"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><h2>Skills</h2><span class="muted">Centang proficiency / expertise</span></div>
+        <div id="skills" class="skills-grid"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><h2>Attacks & Spellcasting</h2><button class="btn small" id="addAttack">+ Tambah</button></div>
+        <p class="muted small-text">Attack bonus dan damage dapat disesuaikan dengan aturan campaign-mu.</p>
+        <div class="table-scroll"><table class="attack-table"><thead><tr><th>Nama</th><th>Bonus</th><th>Damage / tipe</th><th>Aksi</th></tr></thead><tbody id="attacks"></tbody></table></div>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><h2>Features & Traits</h2></div>
+        <textarea id="features" data-save rows="4" placeholder="Fitur ras, class, feat, dan kemampuan khusus..."></textarea>
+      </section>
+    </div>
+
+    <aside class="char-side">
+<section class="card">
+        <div class="section-title"><h2>Death Saves</h2><button class="btn small" id="resetDeath">Reset</button></div>
+        <p class="muted small-text">Tandai hasil death saving throw saat HP 0.</p>
+        <div class="death-row"><b>Successes</b><div id="successes" class="death-boxes"></div></div>
+        <div class="death-row"><b>Failures</b><div id="failures" class="death-boxes"></div></div>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><h2>Inventory</h2><button class="btn small" id="addItem">+ Item</button></div>
+        <div id="inventory"></div>
+        <label class="field"><span>Currency / notes</span><textarea id="currency" data-save rows="2" placeholder="CP, SP, GP, PP, catatan..."></textarea></label>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><h2>Conditions</h2></div>
+        <div class="condition-list" id="conditions"></div>
+      </section>
+
+      <section class="card">
+        <div class="section-title"><h2>Notes & Backstory</h2></div>
+        <textarea id="notes" data-save rows="6" placeholder="Backstory, quest, NPC, dan catatan campaign..."></textarea>
+      </section>
+    </aside>
+  </section>
+  <p id="saveStatus" class="save-status">Tersimpan otomatis di perangkat ini.</p>
+</main>
+<script src="dice.js"></script>
+<script src="character.js"></script>
+</body>
+</html>
